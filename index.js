@@ -28,7 +28,7 @@ require('dotenv').config();
 const fs = require('fs');
 const express = require('express');
 const bodyParser = require("body-parser");
-const {rimraf} = require('rimraf');
+const {rimrafSync} = require('rimraf');
 const svn = require('svn-spawn');
 
 // create new express app and save it as "app"
@@ -54,11 +54,8 @@ app.get('/purgeCache', (req, res) => {
             return;
         }
         console.log(`removing ${config[req.query.sys]}`)
-        rimraf(config[req.query.sys]).then(()=>{
-            res.send(buildMessage({error: 0}))
-        }).catch(e => {
-            res.send(buildMessage({error: 1, error_msg: e.message}));
-        })
+        const stt = rimrafSync(config[req.query.sys]);
+        res.send(buildMessage({error: stt}))
     }
 });
 
