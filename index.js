@@ -54,7 +54,9 @@ app.get('/purgeCache', (req, res) => {
             return;
         }
         console.log(`removing ${config[req.query.sys]}`)
-        const stt = rimrafSync(config[req.query.sys]);
+        const stt = rimrafSync(config[req.query.sys], {
+            glob: true
+        });
         res.send(buildMessage({error: stt}))
     }
 });
